@@ -17,9 +17,17 @@
 
 def FullOTA_InstallEnd(info):
   info.script.Mount("/system")
-  info.script.AppendExtra('ifelse(is_substring("I9300I", getprop("ro.bootloader")), run_program("/sbin/sh", "-c", "busybox cp -R /system/blobs/s3ve3gds/* /system/"));')
+  info.script.AppendExtra('ifelse(is_substring("T530", getprop("ro.bootloader")), run_program("/sbin/sh", "-c", "busybox rm -rf /system/priv-app/Dialer"));')
+  info.script.AppendExtra('ifelse(is_substring("T530", getprop("ro.bootloader")), run_program("/sbin/sh", "-c", "busybox rm -rf /system/priv-app/Mms"));')
+  info.script.AppendExtra('ifelse(is_substring("T530", getprop("ro.bootloader")), run_program("/sbin/sh", "-c", "busybox rm -rf /system/app/InCallUI"));')
+  info.script.AppendExtra('ifelse(is_substring("T530", getprop("ro.bootloader")), package_extract_file("/system/etc/matissewifi/boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot"));')
+  info.script.AppendExtra('ifelse(is_substring("T531", getprop("ro.bootloader")), package_extract_file("/system/etc/matisse3g/boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot"));')
+  info.script.AppendExtra('ifelse(is_substring("T535", getprop("ro.bootloader")), package_extract_file("/system/etc/matisselte/boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot"));')
   info.script.AppendExtra('set_metadata("/system/bin/ds_fmc_appd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");')
   info.script.AppendExtra('set_metadata("/system/bin/qmuxd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");')
   info.script.AppendExtra('set_metadata("/system/bin/radish", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");')
   info.script.AppendExtra('set_metadata("/system/bin/rild", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:rild_exec:s0");')
   info.script.Unmount("/system")
+
+
+
